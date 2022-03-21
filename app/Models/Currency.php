@@ -11,6 +11,7 @@ class Currency extends Model
 
     public $table = "currency";
     public $timestamps = false;
+    public $incrementing = false;
     protected $primaryKey = 'code';
 
     /**
