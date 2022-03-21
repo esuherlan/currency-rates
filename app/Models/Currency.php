@@ -9,6 +9,9 @@ class Currency extends Model
 {
     use HasFactory;
 
+    public $table = "currency";
+    public $timestamps = false;
+
     /**
      * fillable
      *
