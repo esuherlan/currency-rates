@@ -16,8 +16,8 @@ class CreateCurrencyTable extends Migration
         Schema::create('currency', function (Blueprint $table) {
             $table->char('code', 4);
             $table->string('name', 100);
-            $table->float('rate', 10, 5);
-            $table->date('date');
+            $table->float('rate', 10, 5)->nullable()->default(null);
+            $table->date('date')->nullable()->default(null);
         });
     }
 

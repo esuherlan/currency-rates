@@ -50,12 +50,26 @@ class CurrencyScheduler extends Command
 
         $this->info('Starting to get currencies rates data!');
         foreach ($currencyRatesData as $key => $currency) {
-            $currencyData = Currency::updateOrCreate(
-                ['code' => $currency['@attributes']['currency']],
-                ['name' => $currency['@attributes']['currency']],
-                ['rate' => $currency['@attributes']['rate']],
-                ['date' => Carbon::parse($currencyRatesDate)->format('Y-m-d')]
-            );
+            $currencyCode = $currency['@attributes']['currency'];
+            $currencyName = $currency['@attributes']['currency'];
+            $currencyRate = $currency['@attributes']['rate'];
+            $currencyDate = Carbon::parse($currencyRatesDate)->format('Y-m-d');
+
+            if(Currency::where('code', $currency['@attributes']['currency'])->exists()) {
+                $curr = Currency::findOrFail($currency['@attributes']['currency']);
+                $curr->update([
+                    'name' => $currencyName,
+                    'rate' => $currencyRate,
+                    'date' => $currencyDate
+                ]);
+            } else {
+                $curr = Currency::create([
+                    'code' => $currencyCode,
+                    'name' => $currencyName,
+                    'rate' => $currencyRate,
+                    'date' => $currencyDate
+                ]);
+            }
         }
         $this->info('Daily report has been sent successfully!');
         exit;
