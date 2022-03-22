@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Carbon\Carbon;
 use App\Models\Currency;
+use Illuminate\Support\Facades\DB;
 
 class CurrencyScheduler extends Command
 {
@@ -51,7 +52,11 @@ class CurrencyScheduler extends Command
         $this->info('Starting to get currencies rates data!');
         foreach ($currencyRatesData as $key => $currency) {
             $currencyCode = $currency['@attributes']['currency'];
-            $currencyName = $currency['@attributes']['currency'];
+            $getCurrencyName = DB::table('currency_data')
+                            ->select('name')
+                            ->where('code', '=', $currency['@attributes']['currency'])
+                            ->get();
+            $currencyName = $getCurrencyName[0]->name ? $getCurrencyName[0]->name : $currency['@attributes']['currency'];
             $currencyRate = $currency['@attributes']['rate'];
             $currencyDate = Carbon::parse($currencyRatesDate)->format('Y-m-d');
 
