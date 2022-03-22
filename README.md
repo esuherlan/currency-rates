@@ -11,3 +11,6 @@ php artisan hourly:currency_rates
 composer require laravel/sanctum
 php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
 ```
+
+# notes
+Please import currency_data.sql to DB. This table consist of currency detail data
